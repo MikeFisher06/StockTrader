@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to StockTrader!</title>
+    </head>
+    <body>
+        <h1>Login to StockTrader</h1>
+        <br>
+        <form action="" method="post">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" value="{{ request.form.username }}"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" name="password" id="password" value="{{ request.form.password }}"><br>
+            <br>
+            <input type="submit" value="Login">
+        </form>
+        {% if error %}
+            <p><strong>Error:</strong></p> {{error}}
+        {% endif %}
+        <div>
+            <p>Keep track of your stock portfolio and research stocks you are interested in with this free to use app!</applet></p>
+        </div>
+    </body>
+</html>
