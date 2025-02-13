@@ -2,17 +2,20 @@
 <html>
     <head>
         <title>Welcome to StockTrader!</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
     </head>
     <body>
         <h1>Login to StockTrader</h1>
         <br>
         <form action="" method="post">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" value="{{ request.form.username }}"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" id="password" value="{{ request.form.password }}"><br>
-            <br>
-            <input type="submit" value="Login">
+            <div class="form-group">
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" value="{{ request.form.username }}"><br>
+                <label for="password">Password:</label><br>
+                <input type="password" name="password" id="password" value="{{ request.form.password }}"><br>
+                <br>
+                <input type="submit" value="Login">
+            </div>
         </form>
         {% if error %}
             <p><strong>Error:</strong></p> {{error}}

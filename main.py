@@ -16,8 +16,6 @@ POLYGON_API_KEY = os.getenv("POLYGON_API_KEY")
 client = RESTClient(POLYGON_API_KEY)
 
 
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -33,9 +31,9 @@ def login():
 
     return render_template('login.html', error=error)
 
-
-# @app.route('/dashboard')
-# def dashboard():
+@app.route('/watchlist')
+def watchlist():
+    return render_template('watchlist.html')
 
 @app.route('/stock/<ticker>')
 def get_stock_data(ticker):
@@ -49,7 +47,8 @@ def get_stock_data(ticker):
     ):
         aggs.append(a)
 
-    data = [{"time": agg.timestamp, "open": agg.open, "high": agg.high, "low": agg.low, "close": agg.close} for agg in aggs]
+    data = [{"time": agg.timestamp, "open": agg.open, "high": agg.high, 
+             "low": agg.low, "close": agg.close} for agg in aggs]
 
     # data = client.get_ticker_details(ticker)
     # return data
