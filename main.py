@@ -15,11 +15,14 @@ load_dotenv()
 POLYGON_API_KEY = os.getenv("POLYGON_API_KEY")
 
 client = RESTClient(POLYGON_API_KEY)
+user_watchlist = []
+tickers = []
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,9 +35,19 @@ def login():
 
     return render_template('login.html', error=error)
 
-@app.route('/watchlist')
+
+@app.route('/watchlist', methods=['POST'])
 def watchlist():
-    return render_template('watchlist.html')
+    if request.method == 'POST':
+        watch = request.form.getlist('watch')
+        stock = {"ticker": watch[0], "open": watch[1], "close": watch[2], "high": watch[3], "low": watch[4]}
+        if user_watchlist:
+            if stock['ticker'] not in tickers:
+                user_watchlist.append(stock)
+        else:
+            user_watchlist.append(stock)
+        return render_template('watchlist.html', user_watchlist=user_watchlist)
+
 
 @app.route('/stock', methods=['POST'])
 def get_stock_data():
@@ -52,7 +65,8 @@ def get_stock_data():
             yesterday,
             today)
         data = aggs[0]
-        return render_template('stock.html', open=data.open, close=data.close, high=data.high, low=data.low)
+
+        return render_template('stock.html', ticker=ticker, open=data.open, close=data.close, high=data.high, low=data.low)
 
 
 if __name__ == '__main__':
