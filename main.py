@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, url_for, redirect
 from polygon import RESTClient
 from dotenv import load_dotenv
+from datetime import date, timedelta
 
 import os
 import requests
@@ -35,24 +36,24 @@ def login():
 def watchlist():
     return render_template('watchlist.html')
 
-@app.route('/stock/<ticker>')
-def get_stock_data(ticker):
-    aggs = []
-    for a in client.list_aggs(
-        ticker,
-        1,
-        "day",
-        "2024-01-01",
-        "2024-01-02"
-    ):
-        aggs.append(a)
+@app.route('/stock', methods=['POST'])
+def get_stock_data():
+    if request.method == 'POST':
+        ticker = request.form['ticker']
+        ticker = ticker.upper()
+        # Get dates for yesterday and today
+        today = date.today()
+        yesterday = today - timedelta(days=1)
 
-    data = [{"time": agg.timestamp, "open": agg.open, "high": agg.high, 
-             "low": agg.low, "close": agg.close} for agg in aggs]
+        aggs = client.get_aggs(
+            ticker,
+            1,
+            "day",
+            yesterday,
+            today)
+        data = aggs[0]
+        return render_template('stock.html', open=data.open, close=data.close, high=data.high, low=data.low)
 
-    # data = client.get_ticker_details(ticker)
-    # return data
-    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

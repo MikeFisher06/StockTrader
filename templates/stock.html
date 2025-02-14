@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome to StockTrader!</title>
+        <title>Stock Info</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
     </head>
     <body>
@@ -23,10 +23,12 @@
               </form>
             </div>
         </nav>
-        <h2>My Dashboard</h2>
-        <h3>Today's Top Picks</h3>
-
-        <h3>My Portfolio</h3>
-        
+        <h2>Ticker: {{ ticker }}</h2>
+        <ul>
+          <li>Previous Open: ${{ open }}</li>
+          <li>Previous Close: ${{ close }}</li>
+          <li>High: ${{ high }}</li>
+          <li>Low: ${{ low }}</li>
+        </ul>
     </body>
 </html>

@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
     </head>
     <body>
+        <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1">StockTrader</span>
           
@@ -17,14 +18,15 @@
                   <a class="nav-link" href="{{ url_for('watchlist') }}">Watchlist</a>
                 </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Stock Ticker" aria-label="Search">
+              <form class="form-inline my-2 my-lg-0" method="post" action="{{ url_for('get_stock_data') }}">
+                <input class="form-control mr-sm-2" type="search" name="ticker" placeholder="Search Stock Ticker" aria-label="Search" value="{{ request.form.ticker }}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
         </nav>
         <h2>My Watchlist</h2>
         
-        
+        <p>Instructions: Enter an individual stock ticker in the watchlist bar to add a stock to watchlist.</p>
+        <footer>Add stocks to your watchlist so you can see information for all the stocks you are interested in all in one place!</footer>
     </body>
 </html>
